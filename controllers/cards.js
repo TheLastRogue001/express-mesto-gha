@@ -8,7 +8,7 @@ const getCards = (req, res) => {
         if (card) return res.send({data: card});
       })
       .catch((err) => {
-        if (err.name === 'CastError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные при получении карточки'});
+        if (err.name === 'ValidationError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные при получении карточки'});
         return res.status(ERROR_SERVER).send({message: `Произошла ошибка: ${err.message}`});
       });
 };
@@ -20,7 +20,7 @@ const createCard = (req, res) => {
         if (card) return res.send({data: card});
       })
       .catch((err) => {
-        if (err.name === 'CastError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные при создании карточки'});
+        if (err.name === 'ValidationError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные при создании карточки'});
         return res.status(ERROR_SERVER).send({message: `Произошла ошибка: ${err.message}`});
       });
 };
@@ -45,7 +45,7 @@ const likeCard = (req, res) => {
         return res.status(ERROR_NOT_FOUND).send({message: 'Передан несуществующий _id карточки'});
       })
       .catch((err) => {
-        if (err.name === 'CastError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные для постановки/снятии лайка'});
+        if (err.name === 'ValidationError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные для постановки/снятии лайка'});
         return res.status(ERROR_SERVER).send({message: `Произошла ошибка: ${err.message}`});
       });
 };
@@ -61,7 +61,7 @@ const dislikeCard = (req, res) => {
         return res.status(ERROR_NOT_FOUND).send({message: 'Передан несуществующий _id карточки'});
       })
       .catch((err) => {
-        if (err.name === 'CastError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные для постановки/снятии лайка'});
+        if (err.name === 'ValidationError') return res.status(ERROR_VALIDATION).send({message: 'Переданы некорректные данные для постановки/снятии лайка'});
         return res.status(ERROR_SERVER).send({message: `Произошла ошибка: ${err.message}`});
       });
 };
