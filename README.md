@@ -17,4 +17,4 @@
 
 ## Ссылка на проект репозитории 
 
-`https://github.com/TheLastRogue001/express-mesto-gha`
+https://github.com/TheLastRogue001/express-mesto-gha
