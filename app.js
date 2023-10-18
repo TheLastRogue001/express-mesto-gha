@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routerUsers = require('./routes/users');
 const routerCards = require('./routes/cards');
+const {ERROR_NOT_FOUND} = require('./consts/consts');
 const {PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/mestodb'} = process.env;
 
 const app = express();
@@ -21,6 +22,11 @@ app.use((req, res, next)=>{
 
 app.use(routerUsers);
 app.use(routerCards);
+app.use((req, res, next) => {
+  res.status(ERROR_NOT_FOUND).json({
+    message: 'Такой страницы не существует',
+  });
+});
 
 async function init() {
   await mongoose.connect(MONGO_URL);
