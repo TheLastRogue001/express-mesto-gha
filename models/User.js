@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
     },
     minlength: [2, 'Минимум 2 символа'],
     maxlength: [30, 'Максимум 30 символов'],
-    default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
@@ -19,7 +18,6 @@ const userSchema = new mongoose.Schema({
     },
     minlength: [2, 'Минимум 2 символа'],
     maxlength: [30, 'Максимум 30 символов'],
-    default: 'Исследователь',
   },
   avatar: {
     type: String,

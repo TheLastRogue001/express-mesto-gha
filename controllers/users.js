@@ -17,9 +17,12 @@ const getUserById = (req, res) => {
   User.findById(req.params.userId)
       .then((user) => {
         if (user) return res.send({data: user});
-        return res.status(ERROR_NOT_FOUND).send({message: 'Пользователь с указанным _id не найден'});
       })
-      .catch((err) =>res.status(ERROR_SERVER).send({message: `Произошла ошибка: ${err.message}`}));
+      .catch((err) => {
+        console.log(err.name);
+        if (err.name === 'CastError') return res.status(ERROR_VALIDATION).send({message: 'Пользователь по указанному _id не найден'});
+        return res.status(ERROR_SERVER).send({message: `Произошла ошибка: ${err.message}`});
+      });
 };
 
 const createUser = (req, res) => {
