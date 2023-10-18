@@ -10,13 +10,18 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
-    validator: (url) => /^(ftp|http|https):\/\/[^ "]+$/.test(url),
+    validate: {
+      validator: (url) => /^(ftp|http|https):\/\/[^ "]+$/.test(url),
+      message: 'Введи URL с картинкой',
+    },
   },
   owner: {
+    ref: 'Owner',
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   likes: {
+    ref: 'Likes',
     type: [mongoose.Schema.Types.ObjectId],
     default: [],
   },
