@@ -68,7 +68,7 @@ const login = (req, res, next) => {
                 httpOnly: true,
                 sameSite: true,
               });
-              res.status(HTTP_STATUS_OK).send({ _id: user._id });
+              return res.status(HTTP_STATUS_OK).send({ _id: user._id });
             });
       })
       .catch((err) => {
