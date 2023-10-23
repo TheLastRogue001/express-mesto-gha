@@ -54,10 +54,10 @@ const login = (req, res, next) => {
 
   User.findOne({ email }).select('+password')
       .then((user) => {
-        if (!user) return new Error('AuthFailed');
+        if (!user) return res.status(HTTP_STATUS_DENIED).send({ message: 'Неправильная почта или пароль' });
         return bcrypt.compare(password, user.password)
             .then((matched) => {
-              if (!matched) return new Error('AuthFailed');
+              if (!matched) return res.status(HTTP_STATUS_DENIED).send({ message: 'Неправильная почта или пароль' });
               const token = jwt.sign(
                   { _id: user._id },
                   NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
@@ -72,7 +72,7 @@ const login = (req, res, next) => {
             });
       })
       .catch((err) => {
-        if (err.name === 'AuthFailed') return res.status(HTTP_STATUS_DENIED).send({ message: 'Неправильное имя пользователя или пароль' });
+        if (err.name === 'AuthFailed') return res.status(HTTP_STATUS_DENIED).send({ message: 'Неправильная почта или пароль' });
         return res.status(ERROR_SERVER).send({ message: `Произошла ошибка: ${err.message}` });
       });
 };
