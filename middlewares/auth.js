@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
 
     if ((authorization && authorization.startsWith('Bearer ')) || (cookies && cookies.jwt)) {
       const token = authorization ? authorization.replace('Bearer ', '') : cookies.jwt;
-      if (!token) return handleAuthError(res);
+      // if (!token) return handleAuthError(res);
       payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key');
       req.user = payload;
       next();
