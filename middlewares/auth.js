@@ -17,7 +17,6 @@ module.exports = (req, res, next) => {
       const token = authorization ? authorization.replace('Bearer ', '') : cookies.jwt;
       payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key');
       req.user = payload;
-      res.clearCookie('jwt');
       next();
     } else {
       next(new UnauthorizedError('Неверные авторизационные данные'));
