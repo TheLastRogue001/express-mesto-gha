@@ -18,6 +18,8 @@ const {
   HTTP_STATUS_DENIED,
 } = require('../consts/consts');
 
+const generateToken = (payload) => jwt.sign(payload, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
+
 const getUsers = (req, res) => {
   User.find({})
       .then((users) => res.send({data: users}))
@@ -25,8 +27,10 @@ const getUsers = (req, res) => {
 };
 
 const getUserSignIn = (req, res) => {
-  const { _id } = req.body;
-  User.findById(_id)
+  const { cookies } = req;
+  const parseJwt = (token) => JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+  const userId = parseJwt(cookies.jwt)._id;
+  User.findById(userId)
       .then((user) => {
         if (!user) return res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден' });
         res.send({data: user});
@@ -58,17 +62,14 @@ const login = (req, res, next) => {
         return bcrypt.compare(password, user.password)
             .then((matched) => {
               if (!matched) return res.status(HTTP_STATUS_DENIED).send({ message: 'Неправильная почта или пароль' });
-              const token = jwt.sign(
-                  { _id: user._id },
-                  NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
-                  { expiresIn: '7d' },
-              );
+              const token = generateToken({ _id: user._id });
               res.cookie('jwt', token, {
                 maxAge: 3600000 * 24 * 7,
                 httpOnly: true,
                 sameSite: true,
+                secure: true,
               });
-              return res.status(HTTP_STATUS_OK).send({ _id: user._id });
+              res.status(HTTP_STATUS_OK).send({ token });
             });
       })
       .catch((err) => {

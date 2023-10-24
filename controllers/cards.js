@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable max-len */
 const Card = require('../models/Card');
-const {ERROR_VALIDATION, ERROR_NOT_FOUND, ERROR_SERVER} = require('../consts/consts');
+const {ERROR_VALIDATION, ERROR_NOT_FOUND, ERROR_SERVER, HTTP_STATUS_FORBIDDEN} = require('../consts/consts');
 
 const getCards = (req, res) => {
   Card.find({})
@@ -23,6 +23,9 @@ const createCard = (req, res) => {
 const deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
       .then((card) => {
+        if (card.owner.toString() !== req.user._id) {
+          return res.status(HTTP_STATUS_FORBIDDEN).send({message: 'Разрешено удалять только свои карточки'});
+        }
         if (!card) return res.status(ERROR_NOT_FOUND).send({message: 'Карточка по указанному _id не найдена'});
         return res.send({data: card});
       })

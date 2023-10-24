@@ -6,6 +6,7 @@ const HTTP_STATUS_CREATED = 201;
 const HTTP_STATUS_OK = 200;
 const HTTP_STATUS_CONFLICT = 11000;
 const HTTP_STATUS_DENIED = 401;
+const HTTP_STATUS_FORBIDDEN = 403;
 const { JWT_SECRET, NODE_ENV } = process.env;
 const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 
@@ -20,5 +21,6 @@ module.exports = {
   HTTP_STATUS_OK,
   JWT_SECRET,
   NODE_ENV,
+  HTTP_STATUS_FORBIDDEN,
   urlRegex,
 };
