@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const { celebrate } = require('celebrate');
-const Joi = require('joi');
+const { celebrate, Joi } = require('celebrate');
 const { urlRegex } = require('../consts/consts');
 const {
   getCards,
