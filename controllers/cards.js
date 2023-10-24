@@ -14,7 +14,6 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      console.log(err);
       if (err.name === 'ValidationError') {
         return next(
           new BadRequestError(

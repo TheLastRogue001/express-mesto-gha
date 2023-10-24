@@ -69,7 +69,6 @@ const login = (req, res, next) => {
             sameSite: true,
             secure: true,
           });
-          console.log(token);
           res.status(HTTP_STATUS_OK).send({ _id: user._id });
         });
     })
