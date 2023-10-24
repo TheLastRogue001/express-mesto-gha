@@ -9,27 +9,11 @@ const {
   updateUserAvatar,
 } = require('../controllers/users');
 
-router.get('/users', celebrate({
-  body: Joi.object().keys({
-    _id: Joi.string().hex().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(new RegExp(urlRegex)),
-    email: Joi.string().email().required(),
-  }),
-}), getUsers);
-router.get('/users/me', celebrate({
-  body: Joi.object().keys({
-    _id: Joi.string().hex().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(new RegExp(urlRegex)),
-    email: Joi.string().email().required(),
-  }),
-}), getUserSignIn);
+router.get('/users', getUsers);
+router.get('/users/me', getUserSignIn);
 router.get('/users/:userId', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().hex().required(),
+    userId: Joi.string().hex().length(24).required(),
   }),
 }), getUserById);
 router.patch('/users/me', celebrate({

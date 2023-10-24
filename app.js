@@ -9,7 +9,7 @@ const routerUsers = require('./routes/users');
 const routerCards = require('./routes/cards');
 const routerAuth = require('./routes/auth');
 const auth = require('./middlewares/auth');
-const { ERROR_NOT_FOUND } = require('./consts/consts');
+const { NotFoundError } = require('./errors/errors');
 const { handleError } = require('./middlewares/handleError');
 
 const {
@@ -30,11 +30,7 @@ app.use(auth);
 app.use(routerUsers);
 app.use(routerCards);
 
-app.use((req, res) => {
-  res.status(ERROR_NOT_FOUND).json({
-    message: 'Такой страницы не существует',
-  });
-});
+app.use((req, res, next) => next(new NotFoundError('Такой страницы не существует')));
 
 app.use(errors());
 app.use(handleError);
