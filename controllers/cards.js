@@ -2,7 +2,9 @@
 /* eslint-disable consistent-return */
 /* eslint-disable max-len */
 const Card = require('../models/Card');
-const {ERROR_VALIDATION, ERROR_NOT_FOUND, ERROR_SERVER, HTTP_STATUS_FORBIDDEN} = require('../consts/consts');
+const {
+  ERROR_VALIDATION, ERROR_NOT_FOUND, ERROR_SERVER, HTTP_STATUS_FORBIDDEN,
+} = require('../consts/consts');
 
 const getCards = (req, res) => {
   Card.find({})
