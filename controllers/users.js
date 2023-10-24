@@ -69,7 +69,7 @@ const login = (req, res, next) => {
                 sameSite: true,
                 secure: true,
               });
-              res.status(HTTP_STATUS_OK).send({ token });
+              res.status(HTTP_STATUS_OK).send({ _id: user._id });
             });
       })
       .catch((err) => {
