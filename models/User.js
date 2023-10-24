@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
+const { urlRegex } = require('../consts/consts');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -26,7 +27,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
     validate: {
-      validator: (url) => /^(ftp|http|https):\/\/[^ "]+$/.test(url),
+      validator: (url) => urlRegex.test(url),
       message: 'Введи URL с картинкой',
     },
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
@@ -46,7 +47,6 @@ const userSchema = new mongoose.Schema({
       value: true,
       message: 'Поле password обязательное для заполнения',
     },
-    minlength: 8,
     select: false,
   },
 });

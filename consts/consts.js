@@ -1,14 +1,16 @@
+/* eslint-disable no-useless-escape */
 const ERROR_VALIDATION = 400;
 const ERROR_NOT_FOUND = 404;
 const ERROR_SERVER = 500;
 const SALT_TIMES = 10;
 const HTTP_STATUS_CREATED = 201;
 const HTTP_STATUS_OK = 200;
-const HTTP_STATUS_CONFLICT = 11000;
+const HTTP_STATUS_CONFLICT = 409;
 const HTTP_STATUS_DENIED = 401;
 const HTTP_STATUS_FORBIDDEN = 403;
+const DB_DUBLICATE_ERROR_CODE = 11000;
 const { JWT_SECRET, NODE_ENV } = process.env;
-const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+const urlRegex = /((?:(?:http?|ftp)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?)/;
 
 module.exports = {
   ERROR_VALIDATION,
@@ -22,5 +24,6 @@ module.exports = {
   JWT_SECRET,
   NODE_ENV,
   HTTP_STATUS_FORBIDDEN,
+  DB_DUBLICATE_ERROR_CODE,
   urlRegex,
 };
