@@ -27,9 +27,7 @@ const getUsers = (req, res) => {
 };
 
 const getUserSignIn = (req, res) => {
-  const { cookies } = req;
-  const parseJwt = (token) => JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-  const userId = parseJwt(cookies.jwt)._id;
+  const userId = req.user._id;
   User.findById(userId)
       .then((user) => {
         if (!user) return res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден' });
@@ -69,7 +67,7 @@ const login = (req, res, next) => {
                 sameSite: true,
                 secure: true,
               });
-              res.status(HTTP_STATUS_OK).send({ _id: user._id });
+              res.status(HTTP_STATUS_OK).send({ _id: user._id, jwt: token});
             });
       })
       .catch((err) => {
