@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
 const jwt = require('jsonwebtoken');
-const UnauthorizedError = require('unauthorized');
 const {
-  JWT_SECRET, NODE_ENV,
+  JWT_SECRET, NODE_ENV, HTTP_STATUS_DENIED,
 } = require('../consts/consts');
 
+const handleAuthError = (res) => res.status(HTTP_STATUS_DENIED).send({ message: 'Необходима авторизация' });
 
 module.exports = (req, res, next) => {
   let payload;
@@ -19,9 +19,9 @@ module.exports = (req, res, next) => {
       req.user = payload;
       next();
     } else {
-      next(new UnauthorizedError('Неверные авторизационные данные'));
+      next(handleAuthError(res));
     }
   } catch (error) {
-    next(new UnauthorizedError('Неверные авторизационные данные'));
+    next(handleAuthError(res));
   }
 };
